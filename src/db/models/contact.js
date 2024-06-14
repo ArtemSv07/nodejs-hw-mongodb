@@ -18,9 +18,9 @@ const contactSchema = new Schema(
         validator: function (v) {
           return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
         },
-        message: (props) => `${props.value} is not a valid email!`,
+        message: props => `${props.value} is not a valid email!`,
       },
-      required: [true, 'Email required'],
+      required: [false, 'Email required'],
     },
     isFavourite: {
       type: Boolean,
@@ -28,7 +28,7 @@ const contactSchema = new Schema(
     },
     contactType: {
       type: String,
-      required: true,
+      required: false,
       default: 'personal',
       enum: ['work', 'home', 'personal'],
     },
@@ -36,7 +36,7 @@ const contactSchema = new Schema(
   {
     timestamps: true,
     versionKey: false,
-  },
+  }
 );
 
 export const ContactsCollection = model('contacts', contactSchema);
