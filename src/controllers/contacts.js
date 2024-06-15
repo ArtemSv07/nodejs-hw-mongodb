@@ -30,11 +30,14 @@ export const getContactByIdController = async (req, res, next) => {
     const contact = await getContactsById(contactId);
     if (!contact) {
       return next(
-        createHttpError(404, {
-          status: 404,
-          message: `Contact with ID ${contactId} not found`,
-          data: { message: 'Contact not found' },
-        })
+        createHttpError(
+          404,
+          res.status(404).json({
+            status: 404,
+            message: `Contact with ID ${contactId} not found`,
+            data: { message: 'Contact not found' },
+          })
+        )
       );
     }
     res.status(200).json({
@@ -44,11 +47,14 @@ export const getContactByIdController = async (req, res, next) => {
     });
   } catch (error) {
     next(
-      createHttpError(500, {
-        status: 500,
-        message: 'Internal server error',
-        data: { message: error.message },
-      })
+      createHttpError(
+        500,
+        res.status(500).json({
+          status: 500,
+          message: 'Internal server error',
+          data: { message: error.message },
+        })
+      )
     );
   }
 };
@@ -68,11 +74,14 @@ export const patchContactController = async (req, res, next) => {
   const result = await updateContact(contactId, req.body);
   if (!result) {
     next(
-      createHttpError(404, {
-        status: 404,
-        message: `Contact with ID ${contactId} not found`,
-        data: { message: 'Contact not found' },
-      })
+      createHttpError(
+        404,
+        res.status(404).json({
+          status: 404,
+          message: `Contact with ID ${contactId} not found`,
+          data: { message: 'Contact not found' },
+        })
+      )
     );
     return;
   }
@@ -89,11 +98,14 @@ export const deleteContactController = async (req, res, next) => {
   const contact = await deleteContact(contactId);
   if (!contact) {
     next(
-      createHttpError(404, {
-        status: 404,
-        message: `Contact with ID ${contactId} not found`,
-        data: { message: 'Contact not found' },
-      })
+      createHttpError(
+        404,
+        res.status(404).json({
+          status: 404,
+          message: `Contact with ID ${contactId} not found`,
+          data: { message: 'Contact not found' },
+        })
+      )
     );
     return;
   }

@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
-import { HttpError } from 'http-errors';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandle } from './middlewares/notFoundHandler.js';
 
 import { env } from './utils/env.js';
 import contactsRouter from './routers/contacts.js';
@@ -23,27 +24,9 @@ export const setupServer = () => {
 
   app.use(contactsRouter);
 
-  app.use('*', (req, res) => {
-    res.status(404).json({
-      message: 'Not found',
-    });
-  });
+  app.use('*', notFoundHandle);
 
-  app.use((err, req, res) => {
-    if (err instanceof HttpError) {
-      res.status(err.status).json({
-        status: err.status,
-        message: err.name,
-        data: err,
-      });
-      return;
-    }
-
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
-    });
-  });
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
