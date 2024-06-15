@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
+import { HttpError } from 'http-errors';
 
 import { env } from './utils/env.js';
 import contactsRouter from './routers/contacts.js';
@@ -22,13 +23,13 @@ export const setupServer = () => {
 
   app.use(contactsRouter);
 
-  app.use('*', (req, res, next) => {
+  app.use('*', (req, res) => {
     res.status(404).json({
       message: 'Not found',
     });
   });
 
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     if (err instanceof HttpError) {
       res.status(err.status).json({
         status: err.status,
