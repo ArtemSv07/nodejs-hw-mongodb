@@ -14,13 +14,14 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
+
       validate: {
         validator: function (v) {
           return /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
         },
         message: props => `${props.value} is not a valid email!`,
       },
-      required: [false, 'Email required'],
+      required: [true, 'Email required'],
     },
     isFavourite: {
       type: Boolean,
@@ -32,6 +33,7 @@ const contactSchema = new Schema(
       default: 'personal',
       enum: ['work', 'home', 'personal'],
     },
+    userId: { type: Schema.Types.ObjectId, ref: 'users' },
   },
   {
     timestamps: true,
