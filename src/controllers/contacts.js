@@ -45,13 +45,14 @@ export const getContactsController = async (req, res) => {
 };
 
 export const getContactByIdController = async (req, res, next) => {
-  const userId = req.user._id.toString();
+  // const userId = req.user._id.toString();
 
   const { contactId } = req.params;
+
   try {
     const contact = await getContactsById(contactId);
 
-    if (!contact || contact.userId.toString() !== userId) {
+    if (!contact || contact.userId !== contactId) {
       return next(
         createHttpError(
           404,
@@ -105,7 +106,7 @@ export const createContactController = async (req, res) => {
   });
 };
 
-export const patchContactController = async (req, res, next) => {
+export const patchContactController = async (req, res, _next) => {
   const { contactId } = req.params;
   const photo = req.file;
 
@@ -123,10 +124,6 @@ export const patchContactController = async (req, res, next) => {
     ...req.body,
     photo: photoUrl,
   });
-
-  if (!result) {
-    next(createHttpError(404, 'Contact not found'));
-  }
 
   res.json({
     status: 200,

@@ -1,0 +1,14 @@
+tags:
+  - Auth
+summary: Logout contact
+operationId: logoutContact
+description: 'Logout contact'
+security:
+  - bearerAuth: []
+responses:
+  '204':
+    description: No Content
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '404':
+    $ref: '../../components/responses/404.yaml'
