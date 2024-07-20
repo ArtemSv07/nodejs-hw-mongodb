@@ -243,11 +243,6 @@
                     "type": "string",
                     "example": "contact@ukr.net"
                   },
-                  "userId": {
-                    "description": "Contact's id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
                   "photo": {
                     "description": "Contact's photo",
                     "type": "string",
@@ -336,7 +331,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found contact with id 65ca67e7ae7f10c88b598384!"
+                      "example": "Successfully patched a contact!"
                     },
                     "data": {
                       "$ref": "#/components/schemas/contact"
@@ -347,7 +342,41 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact with ID f69ac322e6740eb9bd51341f not found"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "message"
+                      ],
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Contact not found"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -363,6 +392,36 @@
             "bearerAuth": []
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "description": "Contact's name",
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "phoneNumber": {
+                    "description": "Contact's phone",
+                    "type": "string",
+                    "example": "097-999-99-99"
+                  },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "contact@ukr.net"
+                  },
+                  "photo": {
+                    "description": "Contact's photo",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "in": "path",

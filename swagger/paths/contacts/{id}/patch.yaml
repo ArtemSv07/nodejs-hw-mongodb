@@ -5,6 +5,28 @@ operationId: patchContact
 description: 'Patch contact by id'
 security:
   - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        properties:
+          name:
+            description: "Contact's name"
+            type: string
+            example: 'John Doe'
+          phoneNumber:
+            description: "Contact's phone"
+            type: string
+            example: '097-999-99-99'
+          email:
+            description: "Contact's email"
+            type: string
+            example: 'contact@ukr.net'
+
+          photo:
+            description: "Contact's photo"
+            type: string
+            format: binary
 parameters:
   - in: path
     name: id
